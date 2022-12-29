@@ -1,11 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Login from './pages/Login';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <div className="text-3xl font-bold underline">
-      test
-    </div>
+    <>
+      <Login />
+      <ToastContainer />
+    </>
   );
 }
 

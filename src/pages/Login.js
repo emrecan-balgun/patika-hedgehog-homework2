@@ -1,48 +1,34 @@
 import { useState } from 'react';
 import headerImg from '../assets/img/header-img.svg';
-import { toast } from 'react-toastify';
+import {
+  successNotify,
+  failNotify,
+  warningNotify,
+} from '../constants/toastify';
 
 function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
-  const successNotify = toast('✔️ Login success!', {
-    position: 'top-right',
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: 'light',
-  });
-
-  const failNotify = toast('❌ Login success!', {
-    position: 'top-right',
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: 'light',
-  });
-
   const login = () => {
-    if (username === 'admin' && password === 'admin') {
-        console.log('girdi :>> ');
-      successNotify();
-    } else {
-        console.log('girdi2 :>> ');
-      failNotify();
-    }
+    if (!username || !password) return warningNotify();
+    if (username === 'admin' && password === 'admin') return successNotify();
+    else return failNotify();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') return login();
   };
 
   return (
     <div className="h-screen">
       <div className="h-full flex bg-[url('/src/assets/img/banner-bg.png')]">
         <div className="w-1/2 flex flex-col items-center justify-center">
-          <img src={headerImg} className="w-1/2 h-1/2" alt="header_image" />
+          <img
+            src={headerImg}
+            className="w-1/2 h-1/2 animate-[bounce_6s_ease-in-out_infinite]"
+            alt="header_image"
+          />
           <h1 className="text-white font-bold text-4xl font-sans">
             You are back!
           </h1>
@@ -67,6 +53,10 @@ function Login() {
                   type="text"
                   placeholder="Username"
                   onChange={(e) => setUsername(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                  onInvalid={(e) =>
+                    e.target.setCustomValidity('Please enter your username')
+                  }
                 />
               </div>
               <div className="mb-5">
@@ -82,6 +72,7 @@ function Login() {
                   type="password"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
               </div>
               <div className="flex items-center justify-between">

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
+
 import headerImg from '../assets/img/header-img.svg';
 import {
   successNotify,
@@ -9,10 +11,27 @@ import {
 function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const items = JSON.parse(localStorage.getItem('isSignedIn'));
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(items === true) {
+      navigate('/home');
+    }
+  }, [items]);
+
+  const handleLocalStorage = () => {
+    if(!items) {
+      localStorage.setItem("isSignedIn", true);
+      setTimeout(() => {
+        navigate('/home');
+      }, 6000);
+    }
+  }
 
   const login = () => {
     if (!username || !password) return warningNotify();
-    if (username === 'admin' && password === 'admin') return successNotify();
+    if (username === 'admin' && password === 'admin') successNotify() && handleLocalStorage();
     else return failNotify();
   };
 

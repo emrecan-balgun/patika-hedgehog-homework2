@@ -1,13 +1,15 @@
 import React from 'react';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Error404 from './pages/Error404';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+import Login from './pages/Login';
+import Home from './pages/Home';
+import Error404 from './pages/Error404';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const router = createBrowserRouter([

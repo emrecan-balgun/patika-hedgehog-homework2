@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-const successNotify = () => toast.success('Login success', {
+const successNotify = () => toast.success('Login success, you are being redirect.', {
     position: 'top-right',
     autoClose: 4000,
     hideProgressBar: false,
@@ -10,7 +10,7 @@ const successNotify = () => toast.success('Login success', {
     theme: 'light',
   });
 
-  const failNotify = () => toast.error('Login failed', {
+  const failNotify = () => toast.error('Login failed!', {
     position: 'top-right',
     autoClose: 4000,
     hideProgressBar: false,

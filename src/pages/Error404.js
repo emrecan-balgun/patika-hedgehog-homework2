@@ -1,4 +1,5 @@
 import React from 'react';
+
 import rocketImage from '../assets/img/rocket.png';
 
 function Error404() {
@@ -9,10 +10,10 @@ function Error404() {
           <img
             src={rocketImage}
             className="w-1/6 h-1/6 animate-[bounce_4s_ease-in-out_infinite]"
-            alt="header_image"
+            alt="rocket_image"
           />
           <h1 className="text-white font-bold text-4xl font-sans">
-            You are alone here
+            You are alone here..
           </h1>
         </div>
       </div>

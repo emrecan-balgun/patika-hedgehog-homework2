@@ -1,84 +1,65 @@
-import { useEffect, useState } from 'react'
-import Loading from '../components/Loading';
-import withLoading from '../hoc/withLoading';
-import { getAllPeople, getAllCategories } from '../services/swapi';
+import { useEffect, useState } from "react";
+
+import { getAllPeople } from "../services/swapi";
+import withLoading from "../hoc/withLoading";
+import Table from "../components/Table";
 
 function Home({ setLoading }) {
-  const [categoriesData, setCategoriesData] = useState([]);
   const [peopleData, setPeopleData] = useState([]);
-
-  // console.log(categoriesData);
-  // console.log(peopleData);
+  
+  const tableHead = [
+    { name: "Name", sortable: true },
+    { name: "Height", sortable: true },
+    { name: "Gender", sortable: true },
+    // { name: "Films", sortable: true },
+    { name: "Remove", width: 100 },
+  ];
+  const tableBody =
+    peopleData &&
+    peopleData.map((person, key) => [
+      person.name,
+      person.height,
+      person.gender,
+      // person.films,
+      [
+        <button
+          onClick={() => handleRemove(key)}
+          className="h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white"
+        >
+          Remove
+        </button>,
+      ],
+    ]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const peopleResponse = await getAllPeople();
-      const categoriesResponse = await getAllCategories();
-      if(peopleResponse.status === 200) {
-        setPeopleData(peopleResponse.data.results);
-      }
-      if(categoriesResponse.status === 200) {
-        setCategoriesData(Object.keys(categoriesResponse.data));
+      const response = await getAllPeople();
+      if (response.status === 200) {
+        setPeopleData(response.data.results);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
+
+  const handleRemove = (key) => {
+    const tempPeople = [...peopleData];
+    tempPeople.splice(key, 1);
+    setPeopleData(tempPeople);
+  };
 
   return (
-    <div className='h-screen flex items-center bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900'>
-      <div className='h-full w-1/6 h-5/6 m-12 rounded-lg bg-blue-800 flex flex-col items-center'>
-        {/* <ul>
-          {
-            categoriesData.length > 0 ?
-            categoriesData.map((category, index) => {
-              return (
-                <li key={index}>
-                  <h1 className="capitalize text-2xl font-bold text-white">{category}</h1>
-                </li>
-              )})
-            : <Loading />
-          }
-        </ul> */}
-        <h1 className="capitalize text-2xl font-bold text-white">Home</h1>
-      </div>
-      <div className="h-full w-5/6 h-5/6 bg-red-700 m-12 rounded-lg flex flex-col text-white">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Height</th>
-              <th>Mass</th>
-              <th>Hair Color</th>
-              </tr>
-          </thead>
-          <tbody>
-            {
-              peopleData.length > 0 ?
-              peopleData.map((person, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{person.name}</td>
-                    <td>{person.height}</td>
-                    <td>{person.mass}</td>
-                    <td>{person.hair_color}</td>
-                  </tr>
-                )
-              })
-              : <Loading />
-            }
-          </tbody>
-        </table>
-      </div>
+    <div className="h-screen p-4">
+      <Table searchable={true} head={tableHead} body={tableBody} />
     </div>
-  )
+  );
 }
 
 export default withLoading(Home);

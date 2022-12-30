@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import rocketImage from '../assets/img/rocket.png';
+import rocketImage from "../assets/img/rocket.png";
 
 function Error404() {
   return (

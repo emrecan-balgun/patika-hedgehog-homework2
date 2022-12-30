@@ -4,7 +4,7 @@ import { getAllPeople } from "../services/swapi";
 import withLoading from "../hoc/withLoading";
 import Table from "../components/Table";
 
-function Home({ setLoading }) {
+function Home({ setLoading, loading }) {
   const [peopleData, setPeopleData] = useState([]);
   
   const tableHead = [
@@ -57,7 +57,7 @@ function Home({ setLoading }) {
 
   return (
     <div className="h-screen p-4">
-      <Table searchable={true} head={tableHead} body={tableBody} />
+      <Table searchable={true} head={tableHead} body={tableBody} loading={loading} />
     </div>
   );
 }

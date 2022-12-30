@@ -7,7 +7,7 @@ const withLoading = (WrappedComponent) => {
     return (
       <>
         {loading && ( <Loading /> )}
-        <WrappedComponent setLoading={setLoading} />
+        <WrappedComponent setLoading={setLoading} loading={loading} />
       </>
     );
   };

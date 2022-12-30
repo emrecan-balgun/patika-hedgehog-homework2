@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
-import { useMediaQuery, useMediaQueries } from "@react-hook/media-query";
-import TableMobile from "./TableMobile";
+import React, { useState } from 'react';
+import { FaSortDown, FaSortUp, FaSort } from 'react-icons/fa';
+import { useMediaQuery, useMediaQueries } from '@react-hook/media-query';
+import TableMobile from './TableMobile';
 
-function Table({ head, body, searchable }) {
-  const isMobile = useMediaQuery("(max-width: 600px)");
+function Table({ head, body, searchable, loading }) {
+  const isMobile = useMediaQuery('(max-width: 600px)');
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [sorting, setSorting] = useState(false);
   const filteredData =
     body &&
@@ -16,12 +16,12 @@ function Table({ head, body, searchable }) {
           items.some((item) =>
             (item?.key || item?.props?.searchableText || item)
               .toString()
-              .toLocaleLowerCase("TR")
-              .includes(search.toLocaleLowerCase("TR"))
+              .toLocaleLowerCase('TR')
+              .includes(search.toLocaleLowerCase('TR'))
           )
       )
       .sort((a, b) => {
-        if (sorting?.orderBy === "asc") {
+        if (sorting?.orderBy === 'asc') {
           return (
             a[sorting.key]?.key ||
             a[sorting.key]?.props?.searchableText ||
@@ -34,12 +34,12 @@ function Table({ head, body, searchable }) {
                 b[sorting.key]
             );
         }
-        if (sorting?.orderBy === "desc") {
+        if (sorting?.orderBy === 'desc') {
           return b[sorting.key].toString().localeCompare(a[sorting.key]);
         }
       });
 
-  if (!body || body?.length === 0)
+  if ((!body || body?.length === 0) && !loading)
     return (
       <div className="p-4 rounded bg-yellow-100 text-yellow-700 text-sm">
         No data
@@ -88,18 +88,18 @@ function Table({ head, body, searchable }) {
                               setSorting({
                                 key,
                                 orderBy:
-                                  sorting.orderBy === "asc" ? "desc" : "asc",
+                                  sorting.orderBy === 'asc' ? 'desc' : 'asc',
                               });
                             } else {
                               setSorting({
                                 key,
-                                orderBy: "asc",
+                                orderBy: 'asc',
                               });
                             }
                           }}
                         >
                           {sorting?.key === key &&
-                            (sorting.orderBy === "asc" ? (
+                            (sorting.orderBy === 'asc' ? (
                               <FaSortUp size={14} />
                             ) : (
                               <FaSortDown size={14} />

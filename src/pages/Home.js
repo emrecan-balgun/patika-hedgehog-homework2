@@ -19,13 +19,13 @@ function Home({ setLoading, loading }) {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => handleRemove(key)
+          onClick: () => handleRemove(key),
         },
         {
           label: 'No',
-          onClick: () => failRemoveNotify()
-        }
-      ]
+          onClick: () => failRemoveNotify(),
+        },
+      ],
     });
   };
 
@@ -54,7 +54,7 @@ function Home({ setLoading, loading }) {
       [
         <button
           onClick={() => submit(key)}
-          className='h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white'
+          className="h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white"
         >
           Remove
         </button>,
@@ -87,7 +87,7 @@ function Home({ setLoading, loading }) {
   };
 
   return (
-    <div className='h-screen p-4'>
+    <div className="h-screen p-4">
       <Table
         searchable={true}
         head={tableHead}

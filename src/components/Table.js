@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FaSortDown, FaSortUp, FaSort } from 'react-icons/fa';
 import { useMediaQuery } from '@react-hook/media-query';
 import Select from 'react-select';
@@ -13,24 +13,22 @@ export default function Table({ head, body, searchable, loading }) {
     { value: 'male', label: 'Male' },
   ];
 
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(null);
   const [sorting, setSorting] = useState(false);
-  const [filtering, setFiltering] = useState(false);
   const [search, setSearch] = useState('');
   const filteredData =
     body &&
     body
-      .filter(
-        (items) =>
-          // gender ? items.some((item) => item === gender) : ''
-          // ||
-          items.some((item) =>
-            (item?.key || item?.props?.searchableText || item)
-              .toString()
-              .toLocaleLowerCase('TR')
-              // .includes(search.toLocaleLowerCase('TR') || gender.toLocaleLowerCase('TR'))
-              .includes(search.toLocaleLowerCase('TR'))
-          )
+      .filter((items) =>
+        // gender ? items.some((item) => item === gender) : ''
+        // ||
+        items.some((item) =>
+          (item?.key || item?.props?.searchableText || item)
+            .toString()
+            .toLocaleLowerCase('TR')
+            // .includes(search.toLocaleLowerCase('TR') || gender.toLocaleLowerCase('TR'))
+            .includes(search.toLocaleLowerCase('TR'))
+        )
       )
       .sort((a, b) => {
         if (sorting?.orderBy === 'asc') {
@@ -53,47 +51,46 @@ export default function Table({ head, body, searchable, loading }) {
 
   if ((!body || body?.length === 0) && !loading) {
     return (
-      <div className='p-4 rounded bg-yellow-100 text-yellow-700 text-sm'>
+      <div className="p-4 rounded bg-yellow-100 text-yellow-700 text-sm">
         No data
       </div>
     );
   }
 
   const handleFiltering = () => {
-    setGender('');
+    setGender(null);
     setSearch('');
-    setFiltering(false);
-  }
+  };
 
   return (
     <>
       {searchable && (
-        <div className='mb-4 flex gap-x-2'>
+        <div className="mb-4 flex gap-x-2">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            type='text'
-            placeholder='Tabloda ara'
-            className='h-10 outline-none focus:border-black border rounded text-sm px-4 w-full border-gray-300'
+            type="text"
+            placeholder="Tabloda ara"
+            className="h-10 outline-none focus:border-black border rounded text-sm px-4 w-full border-gray-300"
           />
           <Select
+            value={gender}
+            onChange={setGender}
             options={options}
-            onChange={(e) => setGender(e.value)}
-            placeholder={'Gender'}
-            className='w-full'
+            className="w-full"
           />
           {gender && (
             <button
+              className="h-10 rounded whitespace-nowrap border border-blue-500 text-blue-500 text-sm px-4"
               onClick={() => handleFiltering()}
-              className='h-10 rounded whitespace-nowrap border border-red-500 text-red-500 text-sm px-4'
             >
-              Reset filter
+              Clear filter
             </button>
           )}
           {sorting && (
             <button
               onClick={() => setSorting(false)}
-              className='h-10 rounded whitespace-nowrap border border-red-500 text-red-500 text-sm px-4'
+              className="h-10 rounded whitespace-nowrap border border-red-500 text-red-500 text-sm px-4"
             >
               Reset sort
             </button>
@@ -102,17 +99,17 @@ export default function Table({ head, body, searchable, loading }) {
       )}
       {isMobile && <TableMobile head={head} body={filteredData} />}
       {!isMobile && (
-        <div className='w-full  border rounded p4'>
-          <table className='w-full'>
+        <div className="w-full  border rounded p4">
+          <table className="w-full">
             <thead>
               <tr>
                 {head.map((headItem, key) => (
                   <th
                     width={headItem?.width}
-                    className='text-left bg-gray-50 text-sm font-semibold text-gray-500 p-3 border-b'
+                    className="text-left bg-gray-50 text-sm font-semibold text-gray-500 p-3 border-b"
                     key={key}
                   >
-                    <div className='inline-flex items-center gap-x-2'>
+                    <div className="inline-flex items-center gap-x-2">
                       {headItem.name}
                       {headItem.sortable && (
                         <button
@@ -147,14 +144,14 @@ export default function Table({ head, body, searchable, loading }) {
             </thead>
             <tbody>
               {filteredData.map((items, key) => (
-                <tr className='group' key={key}>
+                <tr className="group" key={key}>
                   {items.map((item, key) => (
                     <td
-                      className='p-3 text-sm group-hover:bg-blue-50 group-hover:text-blue-600'
+                      className="p-3 text-sm group-hover:bg-blue-50 group-hover:text-blue-600"
                       key={key}
                     >
                       {Array.isArray(item) ? (
-                        <div className='flex gap-x-2.5'>{item}</div>
+                        <div className="flex gap-x-2.5">{item}</div>
                       ) : (
                         item
                       )}

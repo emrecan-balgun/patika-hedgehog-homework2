@@ -12,22 +12,22 @@ function Home({ setLoading, loading }) {
   const items = JSON.parse(localStorage.getItem('isSignedIn'));
   const navigate = useNavigate();
 
-  const submit = (key) => {
-    confirmAlert({
-      title: 'Confirm to remove',
-      message: 'Are you sure about removing this person?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => handleRemove(key),
-        },
-        {
-          label: 'No',
-          onClick: () => failRemoveNotify(),
-        },
-      ],
-    });
-  };
+  // const submit = (key) => {
+  //   confirmAlert({
+  //     title: 'Confirm to remove',
+  //     message: 'Are you sure about removing this person?',
+  //     buttons: [
+  //       {
+  //         label: 'Yes',
+  //         onClick: () => handleRemove(key),
+  //       },
+  //       {
+  //         label: 'No',
+  //         onClick: () => failRemoveNotify(),
+  //       },
+  //     ],
+  //   });
+  // };
 
   useEffect(() => {
     if (!items) {
@@ -53,7 +53,7 @@ function Home({ setLoading, loading }) {
       // person.films,
       [
         <button
-          onClick={() => submit(key)}
+          onClick={() => handleRemove(key)}
           className="h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white"
         >
           Remove

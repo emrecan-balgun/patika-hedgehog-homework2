@@ -3,6 +3,8 @@ import { FaSortDown, FaSortUp, FaSort } from 'react-icons/fa';
 import { useMediaQuery } from '@react-hook/media-query';
 import Select from 'react-select';
 
+import { FaDatabase } from 'react-icons/fa';
+
 import TableMobile from './TableMobile';
 
 export default function Table({ head, body, searchable, loading }) {
@@ -20,15 +22,16 @@ export default function Table({ head, body, searchable, loading }) {
     body &&
     body
       .filter((items) =>
-        // gender ? items.some((item) => item === gender) : ''
-        // ||
-        items.some((item) =>
-          (item?.key || item?.props?.searchableText || item)
-            .toString()
-            .toLocaleLowerCase('TR')
-            // .includes(search.toLocaleLowerCase('TR') || gender.toLocaleLowerCase('TR'))
-            .includes(search.toLocaleLowerCase('TR'))
-        )
+        gender
+          ? items.some((item) => item === gender)
+          : '' ||
+            items.some((item) =>
+              (item?.key || item?.props?.searchableText || item)
+                .toString()
+                // .toLocaleLowerCase('TR')
+                // .includes(search.toLocaleLowerCase('TR') || gender.toLocaleLowerCase('TR'))
+                .includes(search.toLocaleLowerCase('TR'))
+            )
       )
       .sort((a, b) => {
         if (sorting?.orderBy === 'asc') {
@@ -51,7 +54,8 @@ export default function Table({ head, body, searchable, loading }) {
 
   if ((!body || body?.length === 0) && !loading) {
     return (
-      <div className="p-4 rounded bg-yellow-100 text-yellow-700 text-sm">
+      <div className="flex p-4 gap-2 justify-center items-center rounded bg-yellow-100 text-yellow-700 text-sm">
+        <FaDatabase size={14} />
         No data
       </div>
     );

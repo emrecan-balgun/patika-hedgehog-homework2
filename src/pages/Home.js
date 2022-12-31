@@ -1,18 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-import { getAllPeople } from "../services/swapi";
-import withLoading from "../hoc/withLoading";
-import Table from "../components/Table";
+import { getAllPeople } from '../services/swapi';
+import withLoading from '../hoc/withLoading';
+import Table from '../components/Table';
 
 function Home({ setLoading, loading }) {
+  const items = JSON.parse(localStorage.getItem('isSignedIn'));
+  const navigate = useNavigate();
+
+  const submit = (key) => {
+    confirmAlert({
+      title: 'Confirm to remove',
+      message: 'Are you sure about removing this person?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => handleRemove(key) // toastify ekle
+        },
+        {
+          label: 'No',
+          onClick: () => alert('Click No') // toastify koy
+        }
+      ]
+    });
+  };
+
+  useEffect(() => {
+    if (!items) {
+      navigate('/');
+    }
+  }, [items]);
+
   const [peopleData, setPeopleData] = useState([]);
-  
+
   const tableHead = [
-    { name: "Name", sortable: true },
-    { name: "Height", sortable: true },
-    { name: "Gender", sortable: true },
-    // { name: "Films", sortable: true },
-    { name: "Remove", width: 100 },
+    { name: 'Name', sortable: true },
+    { name: 'Height', sortable: true },
+    { name: 'Gender', sortable: true },
+    // { name: 'Films', sortable: true },
+    { name: 'Remove', width: 100 },
   ];
   const tableBody =
     peopleData &&
@@ -23,8 +52,8 @@ function Home({ setLoading, loading }) {
       // person.films,
       [
         <button
-          onClick={() => handleRemove(key)}
-          className="h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white"
+          onClick={() => submit(key)}
+          className='h-8 px-4 flex items-center justify-center rounded bg-red-600 text-white'
         >
           Remove
         </button>,
@@ -56,8 +85,13 @@ function Home({ setLoading, loading }) {
   };
 
   return (
-    <div className="h-screen p-4">
-      <Table searchable={true} head={tableHead} body={tableBody} loading={loading} />
+    <div className='h-screen p-4'>
+      <Table
+        searchable={true}
+        head={tableHead}
+        body={tableBody}
+        loading={loading}
+      />
     </div>
   );
 }

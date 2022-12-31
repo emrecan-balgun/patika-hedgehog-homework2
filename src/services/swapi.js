@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { PEOPLE_API_LINK, SWAPI_CATEGORIES_LINK } from "../constants";
+import { PEOPLE_API_LINK } from '../constants';
 
 const getAllPeople = async () => {
-    return await axios.get(PEOPLE_API_LINK);
+  return await axios.get(PEOPLE_API_LINK);
 };
 
-const getAllCategories = async () => {
-    return await axios.get(SWAPI_CATEGORIES_LINK);
-}
+const getFilmTitle = async (URL) => {
+  return await axios.get(URL);
+};
 
-export { getAllPeople, getAllCategories };
+export { getAllPeople, getFilmTitle };

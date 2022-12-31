@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { getAllPeople } from '../services/swapi';
+import { successRemoveNotify, failRemoveNotify } from '../constants/toastify';
 import withLoading from '../hoc/withLoading';
 import Table from '../components/Table';
 
@@ -18,11 +19,11 @@ function Home({ setLoading, loading }) {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => handleRemove(key) // toastify ekle
+          onClick: () => handleRemove(key)
         },
         {
           label: 'No',
-          onClick: () => alert('Click No') // toastify koy
+          onClick: () => failRemoveNotify()
         }
       ]
     });
@@ -82,6 +83,7 @@ function Home({ setLoading, loading }) {
     const tempPeople = [...peopleData];
     tempPeople.splice(key, 1);
     setPeopleData(tempPeople);
+    successRemoveNotify();
   };
 
   return (

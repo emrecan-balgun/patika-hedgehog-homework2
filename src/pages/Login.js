@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import headerImg from '../assets/img/header-img.svg';
 import {
-  successNotify,
-  failNotify,
-  warningNotify,
+  successLoginNotify,
+  failLoginNotify,
+  warningLoginNotify,
 } from '../constants/toastify';
 
 function Login() {
@@ -30,9 +30,9 @@ function Login() {
   }
 
   const login = () => {
-    if (!username || !password) return warningNotify();
-    if (username === 'admin' && password === 'admin') successNotify() && handleLocalStorage();
-    else return failNotify();
+    if (!username || !password) return warningLoginNotify();
+    if (username === 'admin' && password === 'admin') successLoginNotify() && handleLocalStorage();
+    else return failLoginNotify();
   };
 
   const handleKeyDown = (e) => {
